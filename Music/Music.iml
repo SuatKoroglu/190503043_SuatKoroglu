@@ -9,6 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/JavaFx/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
+    <content url="file://E:/Users/user/Downloads/Slider">
+      <sourceFolder url="file://E:/Users/user/Downloads/Slider/src" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18-ea+6" level="project" />

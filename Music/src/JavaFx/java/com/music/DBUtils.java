@@ -1,7 +1,6 @@
 package com.music;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -20,8 +19,8 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
                 root = loader.load();
-                LoggedInController loggedInController = loader.getController();
-                loggedInController.setUserInformation(username);
+                HomePageController homePageController = loader.getController();
+                homePageController.setUserInformation(username);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -35,7 +34,7 @@ public class DBUtils {
         }
         Stage stage= (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
-        stage.setScene(new Scene(root,600,400));
+        stage.setScene(new Scene(root,650,460));
         stage.show();
     }
     public static void signUpUser(ActionEvent event, String username, String password){
@@ -60,7 +59,7 @@ public class DBUtils {
                 psInsert.setString(2,password);
                 psInsert.executeUpdate();
 
-                changeScene(event,"logged-in.fxml","Welcome",username);
+                changeScene(event,"homepage.fxml","Welcome",username);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -114,7 +113,7 @@ public class DBUtils {
                 while (resultSet.next()){
                     String retrievedPassword =resultSet.getString("password");
                     if (retrievedPassword.equals(password)){
-                        changeScene(event,"logged-in.fxml","Welcome",username);
+                        changeScene(event,"homepage.fxml","Welcome",username);
                     }else {
                         System.out.println("Password did not match!");
                         Alert alert= new Alert(Alert.AlertType.ERROR);
