@@ -34,7 +34,7 @@ public class DBUtils {
         }
         Stage stage= (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
-        stage.setScene(new Scene(root,650,460));
+        stage.setScene(new Scene(root,1280,720));
         stage.show();
     }
     public static void signUpUser(ActionEvent event, String username, String password){

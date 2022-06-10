@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.music.HomePageController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.music.HomePageController">
    <children>
       <BorderPane layoutX="2.0" prefHeight="458.0" prefWidth="568.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <VBox prefHeight="428.0" prefWidth="154.0" style="-fx-background-color: #FED700;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="label_welcome" prefHeight="37.0" prefWidth="119.0" text="Welcome!" textAlignment="CENTER">
+                  <Label fx:id="label_welcome" prefHeight="64.0" prefWidth="124.0" text="Welcome!" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="20.0" />
                      </font>
@@ -32,7 +32,7 @@
                         <Font name="Arial Black" size="10.0" />
                      </font>
                   </Label>
-                <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" style="-fx-background-color: #D29E00;" stylesheets="@css.css" text="Button">
+                <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" style="-fx-background-color: #D29E00;" stylesheets="@css.css" text="Homepage">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -42,38 +42,88 @@
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@homepage.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Button">
+                  <Button id="Button" fx:id="button_person" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Person">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@person.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Button">
+                  <Button id="Button" fx:id="button_kurs" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Kurs ">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@kurs.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Button">
+                  <Button id="Button" fx:id="button_bills" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Bills">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@bill.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Button">
+                  <Button id="Button" fx:id="button_learningplan" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Learningplan">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@plan.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button id="Button" fx:id="button_instrument" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Instrument">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@instrument.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </VBox>
