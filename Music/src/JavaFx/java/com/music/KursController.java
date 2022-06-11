@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PersonController implements Initializable {
+public class KursController implements Initializable {
     @FXML
     private Button button_logout;
     @FXML
@@ -19,7 +19,7 @@ public class PersonController implements Initializable {
     @FXML
     private  Button button_homepage;
     @FXML
-    private  Button button_kurs;
+    private  Button button_person;
     @FXML
     private Button button_bills;
     @FXML
@@ -27,13 +27,7 @@ public class PersonController implements Initializable {
     @FXML
     private Button button_instrument;
     @FXML
-    private ComboBox combo;
-    @FXML
     private ComboBox combo2;
-    @FXML
-    private Label label_nummer;
-    @FXML
-    private Label label_preis;
     @FXML
     private Button button_delete;
     @FXML
@@ -41,41 +35,34 @@ public class PersonController implements Initializable {
     @FXML
     private TextField tf_name;
     @FXML
-    private TextField tf_surname;
-    @FXML
-    private TextField tf_id;
-    @FXML
-    private TextField tf_telefon;
-    @FXML
-    private TextField tf_mail;
-    @FXML
-    private TextField tf_adress;
-    @FXML
     private TextField tf_number;
     @FXML
-    private TextField tf_preis;
+    private TextField tf_fee;
+    @FXML
+    private TextField tf_teachrID;
     @FXML
     private TextField tf_infid;
     @FXML
     private TextField tf_newinf;
+    @FXML
+    private TextField tf_rstudent;
+    @FXML
+    private TextField tf_rcourse1;
+    @FXML
+    private TextField tf_rlehrer;
+    @FXML
+    private TextField tf_rcourse2;
+    @FXML
+    private Button button_regstudent;
+    @FXML
+    private Button button_regteacher;
 
-
-    public void setnumberInformation(){
-        if (combo.getValue()=="Student") {
-            label_nummer.setText("Student Number");
-            label_preis.setText("Gebühr");
-        }
-        if (combo.getValue()=="Teacher") {
-            label_nummer.setText("Personal Number");
-            label_preis.setText("Gehalt");
-        }
-    }
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        combo.setOnAction(event -> setnumberInformation());
+
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -88,10 +75,10 @@ public class PersonController implements Initializable {
                 DBUtils.changeScene(event,"homepage.fxml","Homepage",null);
             }
         });
-        button_kurs.setOnAction(new EventHandler<ActionEvent>() {
+        button_person.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"kurs.fxml","Kurs",null);
+                DBUtils.changeScene(event,"person.fxml","Person",null);
             }
         });
         button_bills.setOnAction(new EventHandler<ActionEvent>() {
@@ -132,9 +119,7 @@ public class PersonController implements Initializable {
 
 
 
-        ObservableList<String> list = FXCollections.observableArrayList("Student","Teacher");
-        combo.setItems(list);
-        ObservableList<String> list2 = FXCollections.observableArrayList("Name","Nachname","IdNummer","Telefonnummer","e-mail","Adresse","Nummer","Preis");
+        ObservableList<String> list2 = FXCollections.observableArrayList("Course Name","Course Number","Course Fee","Course Teacher ID");
         combo2.setItems(list2);
     }
     public void setUserInformation(String username){

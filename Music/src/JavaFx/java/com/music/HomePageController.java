@@ -44,25 +44,25 @@ public class HomePageController implements Initializable {
         button_kurs.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"person.fxml","Kurs",null);
+                DBUtils.changeScene(event,"kurs.fxml","Kurs",null);
             }
         });
         button_bills.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"person.fxml","Bills",null);
+                DBUtils.changeScene(event,"rechnung.fxml","Bills",null);
             }
         });
         button_learningplan.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"person.fxml","Learning Plan",null);
+                DBUtils.changeScene(event,"learningplan.fxml","Learning Plan",null);
             }
         });
         button_instrument.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"person.fxml","Instrument",null);
+                DBUtils.changeScene(event,"instrument.fxml","Instrument",null);
             }
         });
 

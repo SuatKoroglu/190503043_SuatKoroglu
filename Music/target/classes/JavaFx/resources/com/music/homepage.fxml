@@ -16,7 +16,7 @@
          <left>
             <VBox prefHeight="428.0" prefWidth="154.0" style="-fx-background-color: #FED700;" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="label_welcome" prefHeight="64.0" prefWidth="124.0" text="Welcome!" textAlignment="CENTER">
+                  <Label fx:id="label_welcome" prefHeight="65.0" prefWidth="124.0" text="Welcome!" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="20.0" />
                      </font>
@@ -65,7 +65,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button id="Button" fx:id="button_kurs" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Kurs ">
+                  <Button id="Button" fx:id="button_kurs" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Course">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

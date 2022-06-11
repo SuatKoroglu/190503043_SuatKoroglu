@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PersonController implements Initializable {
+public class InstrumentController implements Initializable {
     @FXML
     private Button button_logout;
     @FXML
@@ -25,57 +25,37 @@ public class PersonController implements Initializable {
     @FXML
     private Button button_learningplan;
     @FXML
-    private Button button_instrument;
-    @FXML
-    private ComboBox combo;
+    private Button button_person;
+
     @FXML
     private ComboBox combo2;
     @FXML
-    private Label label_nummer;
+    private Button button_create;
     @FXML
-    private Label label_preis;
+    private Button button_save;
     @FXML
     private Button button_delete;
     @FXML
     private Button button_change;
+
     @FXML
     private TextField tf_name;
     @FXML
-    private TextField tf_surname;
-    @FXML
     private TextField tf_id;
-    @FXML
-    private TextField tf_telefon;
-    @FXML
-    private TextField tf_mail;
-    @FXML
-    private TextField tf_adress;
-    @FXML
-    private TextField tf_number;
-    @FXML
-    private TextField tf_preis;
     @FXML
     private TextField tf_infid;
     @FXML
     private TextField tf_newinf;
-
-
-    public void setnumberInformation(){
-        if (combo.getValue()=="Student") {
-            label_nummer.setText("Student Number");
-            label_preis.setText("Gebühr");
-        }
-        if (combo.getValue()=="Teacher") {
-            label_nummer.setText("Personal Number");
-            label_preis.setText("Gehalt");
-        }
-    }
+    @FXML
+    private TextField tf_status;
+    @FXML
+    private TextField tf_bid;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        combo.setOnAction(event -> setnumberInformation());
+
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -86,6 +66,12 @@ public class PersonController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 DBUtils.changeScene(event,"homepage.fxml","Homepage",null);
+            }
+        });
+        button_person.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DBUtils.changeScene(event,"person.fxml","Person",null);
             }
         });
         button_kurs.setOnAction(new EventHandler<ActionEvent>() {
@@ -106,17 +92,27 @@ public class PersonController implements Initializable {
                 DBUtils.changeScene(event,"learningplan.fxml","Learning Plan",null);
             }
         });
-        button_instrument.setOnAction(new EventHandler<ActionEvent>() {
+        button_create.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"instrument.fxml","Instrument",null);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Create Instrument?");
+                alert.show();
+            }
+        });
+        button_save.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Save Informations?");
+                alert.show();
             }
         });
         button_delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Delete Person?");
+                alert.setContentText("Delete Instrument?");
                 alert.show();
             }
         });
@@ -124,19 +120,17 @@ public class PersonController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Change Information?");
+                alert.setContentText("Change Informations?");
                 alert.show();
             }
         });
 
 
-
-
-        ObservableList<String> list = FXCollections.observableArrayList("Student","Teacher");
-        combo.setItems(list);
-        ObservableList<String> list2 = FXCollections.observableArrayList("Name","Nachname","IdNummer","Telefonnummer","e-mail","Adresse","Nummer","Preis");
+        ObservableList<String> list2 = FXCollections.observableArrayList("Instrument Name","Instrument ID");
         combo2.setItems(list2);
     }
+
+
     public void setUserInformation(String username){
         label_welcome.setText("Welcome \n"+ username+"!");
     }

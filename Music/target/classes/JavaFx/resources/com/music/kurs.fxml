@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.music.PersonController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.music.KursController">
     <children>
         <BorderPane layoutX="2.0" prefHeight="538.0" prefWidth="713.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
@@ -55,7 +55,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" style="-fx-background-color: #D29E00;" stylesheets="@css.css" text="Person">
+                        <Button id="Button" fx:id="button_person" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Person">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -70,7 +70,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="Button" fx:id="button_kurs" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Course">
+                        <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" style="-fx-background-color: #D29E00;" stylesheets="@css.css" text="Course">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -133,114 +133,145 @@
                     </children>
                 </VBox>
             </left>
-         <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Create">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <center>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                        <Tab text="Create">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <Label layoutX="273.0" layoutY="193.0" text="Course Name">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label layoutX="265.0" layoutY="233.0" prefHeight="20.0" prefWidth="123.0" text="Course Number">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="tf_number" layoutX="452.0" layoutY="230.0" />
+                                        <TextField fx:id="tf_teacherID" layoutX="452.0" layoutY="310.0" />
+                                        <Label layoutX="282.0" layoutY="273.0" text="Course Fee">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label layoutX="254.0" layoutY="313.0" text="Course Teacher ID">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="tf_fee" layoutX="452.0" layoutY="270.0" />
+                                        <TextField fx:id="tf_name" layoutX="452.0" layoutY="190.0" />
+                                        <Button layoutX="550.0" layoutY="360.0" mnemonicParsing="false" text="Create" />
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Delete/Change">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <ComboBox fx:id="combo2" layoutX="187.0" layoutY="251.0" prefHeight="25.0" prefWidth="321.0" promptText="Informatin" />
+                                        <Label layoutX="187.0" layoutY="205.0" text="Which information do you want to change">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="tf_newinf" layoutX="555.0" layoutY="246.0" prefHeight="25.0" prefWidth="384.0">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </TextField>
+                                        <Label layoutX="555.0" layoutY="205.0" text="New information">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Button fx:id="button_change" layoutX="868.0" layoutY="307.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="71.0" text="Change" />
+                                        <Label layoutX="187.0" layoutY="94.0" text="Course number of the Course whose information you want to change/Delete">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="tf_infid" layoutX="346.0" layoutY="133.0" prefHeight="35.0" prefWidth="323.0">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </TextField>
+                                        <Button fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" style="-fx-background-color: red;" text="Delete Course">
+                                            <font>
+                                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                                            </font>
+                                        </Button>
+                                        <Line endX="617.0" layoutX="508.0" layoutY="382.0" startX="-508.0" />
+                                    </children></AnchorPane>
+                            </content>
+                        </Tab>
+                  <Tab text="Course Registration">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ComboBox fx:id="combo" layoutX="452.0" layoutY="150.0" prefWidth="150.0" promptText="Type" />
-                              <Label layoutX="236.0" layoutY="153.0" text="The type of person">
+                              <Label layoutX="36.0" layoutY="86.0" text="Student">
                                  <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                    <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="284.0" layoutY="193.0" text="Name">
+                              <Label layoutX="591.0" layoutY="86.0" text="Teacher">
                                  <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                    <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="274.0" layoutY="233.0" text="Surname">
+                              <Line endX="-100.0" endY="697.0" layoutX="662.0" layoutY="1.0" startX="-100.0" />
+                              <TextField fx:id="tf_rcourse1" layoutX="282.0" layoutY="254.0" prefHeight="25.0" prefWidth="210.0">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_surname" layoutX="452.0" layoutY="230.0" />
-                              <TextField fx:id="tf_telefon" layoutX="452.0" layoutY="310.0" />
-                              <TextField fx:id="tf_adress" layoutX="452.0" layoutY="390.0" />
-                              <TextField fx:id="tf_mail" layoutX="452.0" layoutY="350.0" />
-                              <Label layoutX="271.0" layoutY="273.0" text="IdNumber">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="247.0" layoutY="313.0" text="Telefon Number">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="286.0" layoutY="353.0" text="e-mail">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="282.0" layoutY="393.0" text="Adress">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="label_nummer" layoutX="279.0" layoutY="433.0" text="Number">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="label_preis" layoutX="290.0" layoutY="473.0" text="Preis">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_id" layoutX="452.0" layoutY="270.0" />
-                              <TextField fx:id="tf_name" layoutX="452.0" layoutY="190.0" />
-                              <TextField fx:id="tf_number" layoutX="452.0" layoutY="430.0" />
-                              <TextField fx:id="tf_preis" layoutX="452.0" layoutY="470.0" />
-                              <Button layoutX="452.0" layoutY="510.0" mnemonicParsing="false" text="Create" />
-                           </children></AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Delete/Change">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ComboBox fx:id="combo2" layoutX="187.0" layoutY="251.0" prefHeight="25.0" prefWidth="321.0" promptText="Informatin" />
-                              <Label layoutX="187.0" layoutY="205.0" text="Which information do you want to change">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_newinf" layoutX="555.0" layoutY="246.0" prefHeight="25.0" prefWidth="384.0">
-                                 <font>
-                                    <Font size="16.0" />
                                  </font>
                               </TextField>
-                              <Label layoutX="555.0" layoutY="205.0" text="New information">
+                              <Label layoutX="66.0" layoutY="259.0" prefHeight="17.0" prefWidth="173.0" text="Course ID">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="button_change" layoutX="868.0" layoutY="307.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="71.0" text="Change" />
-                              <Label layoutX="187.0" layoutY="94.0" text="ID number of the person whose information you want to change/Delete">
+                              <TextField fx:id="tf_rstudent" layoutX="282.0" layoutY="206.0" prefHeight="25.0" prefWidth="210.0">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_infid" layoutX="346.0" layoutY="133.0" prefHeight="35.0" prefWidth="323.0">
-                                 <font>
-                                    <Font size="16.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" style="-fx-background-color: red;" text="Delete Person">
+                              <Label layoutX="66.0" layoutY="211.0" prefHeight="17.0" prefWidth="173.0" text="Student ID">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
-                              </Button>
-                              <Line endX="617.0" layoutX="508.0" layoutY="382.0" startX="-508.0" />
-                           </children></AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-         </center>
+                              </Label>
+                              <TextField fx:id="tf_rcourse2" layoutX="840.0" layoutY="245.0" prefHeight="25.0" prefWidth="210.0">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Label layoutX="624.0" layoutY="250.0" prefHeight="17.0" prefWidth="173.0" text="Course ID">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tf_rlehrer" layoutX="840.0" layoutY="197.0" prefHeight="25.0" prefWidth="210.0">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Label layoutX="624.0" layoutY="202.0" prefHeight="17.0" prefWidth="173.0" text="Teacher ID">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="button_regstudent" layoutX="379.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Student" />
+                              <Button fx:id="button_regteacher" layoutX="937.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Teacher" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                    </tabs>
+                </TabPane>
+            </center>
         </BorderPane>
         <Button fx:id="button_logout" layoutX="442.0" layoutY="366.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: #FED700;" text="Logout" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="6.0">
             <font>
