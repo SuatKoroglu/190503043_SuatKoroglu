@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PersonController implements Initializable {
@@ -58,16 +59,17 @@ public class PersonController implements Initializable {
     private TextField tf_infid;
     @FXML
     private TextField tf_newinf;
-
+    @FXML
+    private Button button_create;
 
     public void setnumberInformation(){
         if (combo.getValue()=="Student") {
             label_nummer.setText("Student Number");
-            label_preis.setText("Gebühr");
+            label_preis.setText("Fee");
         }
         if (combo.getValue()=="Teacher") {
             label_nummer.setText("Personal Number");
-            label_preis.setText("Gehalt");
+            label_preis.setText("Salary");
         }
     }
 
@@ -117,7 +119,15 @@ public class PersonController implements Initializable {
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Delete Person?");
-                alert.show();
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    DBUtils.deleteperson(Integer.parseInt(tf_infid.getText()));
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The person is not deleted!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_change.setOnAction(new EventHandler<ActionEvent>() {
@@ -125,7 +135,51 @@ public class PersonController implements Initializable {
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Change Information?");
-                alert.show();
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    DBUtils.changeperson(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The person is not updated!");
+                    alert1.showAndWait();
+                }
+            }
+        });
+        button_create.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Create Person?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        if(combo.getValue()=="Student"){
+                            DBUtils.createstudent(tf_name.getText(),tf_surname.getText(),Integer.parseInt(tf_id.getText()) ,Integer.parseInt(tf_telefon.getText()),tf_mail.getText(),tf_adress.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_preis.getText()));
+                        }
+                        else if (combo.getValue()=="Teacher"){
+                            DBUtils.createteacher(tf_name.getText(),tf_surname.getText(),Integer.parseInt(tf_id.getText()) ,Integer.parseInt(tf_telefon.getText()),tf_mail.getText(),tf_adress.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_preis.getText()));
+
+                        }else{
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                            alert1.setTitle("Please Select!");
+                            alert1.setContentText("Please Select Student or Teacher");
+                            alert1.showAndWait();
+                        }
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+
+
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The person is not created");
+                    alert1.showAndWait();
+                }
             }
         });
 
@@ -134,7 +188,7 @@ public class PersonController implements Initializable {
 
         ObservableList<String> list = FXCollections.observableArrayList("Student","Teacher");
         combo.setItems(list);
-        ObservableList<String> list2 = FXCollections.observableArrayList("Name","Nachname","IdNummer","Telefonnummer","e-mail","Adresse","Nummer","Preis");
+        ObservableList<String> list2 = FXCollections.observableArrayList("Name","Surname","IDnumber","Phone number","E-mail","Adress","Number","Preis");
         combo2.setItems(list2);
     }
     public void setUserInformation(String username){

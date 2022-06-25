@@ -165,7 +165,7 @@
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="247.0" layoutY="313.0" text="Telefon Number">
+                              <Label layoutX="253.0" layoutY="313.0" text="Phone Number">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
@@ -194,7 +194,7 @@
                               <TextField fx:id="tf_name" layoutX="452.0" layoutY="190.0" />
                               <TextField fx:id="tf_number" layoutX="452.0" layoutY="430.0" />
                               <TextField fx:id="tf_preis" layoutX="452.0" layoutY="470.0" />
-                              <Button layoutX="452.0" layoutY="510.0" mnemonicParsing="false" text="Create" />
+                              <Button fx:id="button_create" layoutX="452.0" layoutY="510.0" mnemonicParsing="false" text="Create" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

@@ -56,7 +56,8 @@ public class KursController implements Initializable {
     private Button button_regstudent;
     @FXML
     private Button button_regteacher;
-
+    @FXML
+    private Button button_create;
 
 
 
@@ -115,8 +116,30 @@ public class KursController implements Initializable {
                 alert.show();
             }
         });
-
-
+        button_create.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Create Course?");
+                alert.show();
+            }
+        });
+        button_regstudent.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Register Student?");
+                alert.show();
+            }
+        });
+        button_regteacher.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Register Teacher?");
+                alert.show();
+            }
+        });
 
 
         ObservableList<String> list2 = FXCollections.observableArrayList("Course Name","Course Number","Course Fee","Course Teacher ID");
