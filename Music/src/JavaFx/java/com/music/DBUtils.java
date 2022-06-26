@@ -178,8 +178,12 @@ public class DBUtils {
                 psInsert.setInt(9,fee);
                 psInsert.setString(10,"");
                 psInsert.setString(11,"");
-                psInsert.executeUpdate();
-
+                int j= psInsert.executeUpdate();
+                if (j==1){
+                    Alert alert= new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Person Created!");
+                    alert.show();
+                }
 
             }
         }catch (SQLException e){
@@ -243,7 +247,12 @@ public class DBUtils {
                 psInsert.setString(8,"");
                 psInsert.setString(9,"");
                 psInsert.setInt(10,personalnumber);
-                psInsert.executeUpdate();
+                int j= psInsert.executeUpdate();
+                if (j==1){
+                    Alert alert= new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Person Created!");
+                    alert.show();
+                }
 
 
             }
@@ -289,7 +298,7 @@ public class DBUtils {
         if(info=="Name") info="name";
         if(info=="Surname") info="nachname";
         if(info=="IDnumber") info="IDnummer";
-        if(info=="Phone Number") info="telefonnummer";
+        if(info=="Phone number") info="telefonnummer";
         if(info=="E-mail") info="email";
         if(info=="Adress") info="adresse";
         if(info=="Number") {
@@ -317,29 +326,30 @@ public class DBUtils {
             }else {
 
                 if(info=="Number" || info =="Preis" ){
-                    System.out.println("Sa as");
-                    String sql1= "UPDATE lehrer SET " + info2 +"= "+"\'" + newinfo+ "\'" +" FROM lehrer WHERE IDnummer="+ IDnummer;
-                    String sql2= "UPDATE student SET " + info1 +"= "+"\'" + newinfo+ "\'" +" FROM student WHERE IDnummer="+ IDnummer;
+
+                    String sql1 = "UPDATE lehrer SET " + info2 + "= " + "\'" + newinfo + "\'" + "  WHERE IDnummer=" + IDnummer;
+
+                    String sql2 = "UPDATE student SET " + info1 + "= " + "\'" + newinfo + "\'" + " WHERE IDnummer=" + IDnummer;
                     preparedStatement = connection.prepareStatement(sql1);
                     int m = preparedStatement.executeUpdate();
                     preparedStatement = connection.prepareStatement(sql2);
                     int j = preparedStatement.executeUpdate();
                     if (m==1 ||j==1){
-                        Alert alert= new Alert(Alert.AlertType.ERROR);
+                        Alert alert= new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText("Updated!");
                         alert.show();
                     }
                 }else {
-                    System.out.println("izzet");
+
                     String sql1 = "UPDATE lehrer SET " + info + "= " + "\'" + newinfo + "\'" + "  WHERE IDnummer=" + IDnummer;
-                    System.out.println(sql1);
+
                     String sql2 = "UPDATE student SET " + info + "= " + "\'" + newinfo + "\'" + " WHERE IDnummer=" + IDnummer;
                     preparedStatement = connection.prepareStatement(sql1);
                     int k = preparedStatement.executeUpdate();
                     preparedStatement = connection.prepareStatement(sql2);
                     int l = preparedStatement.executeUpdate();
                     if (k == 1 || l == 1) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText("Updated!");
                         alert.show();
                     }
@@ -397,7 +407,7 @@ public class DBUtils {
                     psDelete = connection.prepareStatement("DELETE from lehrer WHERE IDnummer="+IDnummer);
                     boolean j= psDelete.execute();
                     if(!j){
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText("Deleted!");
                         alert.show();
                     }
@@ -407,7 +417,7 @@ public class DBUtils {
                 psDelete = connection.prepareStatement("DELETE from student WHERE IDnummer="+IDnummer);
                 boolean j= psDelete.execute();
                 if(!j){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setContentText("Deleted!");
                     alert.show();
                 }
@@ -446,7 +456,746 @@ public class DBUtils {
             }
         }
     }
+    public static void createcourse(String name, int coursenumber,int fee,int teacherid){
+        Connection connection= null;
+        PreparedStatement psInsert= null;
+        PreparedStatement psCheckUserExists = null;
+        ResultSet resultSet= null;
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM kurs WHERE kursnummer =?");
+            psCheckUserExists.setInt(1, coursenumber);
+            resultSet = psCheckUserExists.executeQuery();
+
+            if (resultSet.isBeforeFirst()){
+                System.out.println("Course already exists!");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Course already exists!");
+                alert.show();
+            }else{
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                psCheckUserExists = connection.prepareStatement("SELECT IDnummer FROM lehrer WHERE IDnummer=?");
+                psCheckUserExists.setInt(1,teacherid);
+                resultSet = psCheckUserExists.executeQuery();
+
+                if (!resultSet.isBeforeFirst()){
+
+                    System.out.println("Teacher not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+                }else {
+
+                    psInsert = connection.prepareStatement("INSERT INTO kurs (kursname, kursnummer,betrag,kurslehrerid) VALUES (?,?,?,?)");
+                    psInsert.setString(1, name);
+                    psInsert.setInt(2, coursenumber);
+                    psInsert.setInt(3, fee);
+                    psInsert.setInt(4, teacherid);
+                    int j= psInsert.executeUpdate();
+                    if (j==1){
+                        Alert alert= new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Course Created!");
+                        alert.show();
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckUserExists !=null){
+                try {
+                    psCheckUserExists.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psInsert != null){
+                try {
+                    psInsert.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void changecourse( int coursenumber , String info, String newinfo){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+        String info1=null;
+        String info2=null;
+        if(info=="Course Name") info="kursname";
+        if(info=="Course Number") info="kursnummer";
+        if(info=="Course Fee") info="betrag";
 
 
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT kursnummer FROM kurs  WHERE kursnummer=? ");
+            preparedStatement.setInt(1, coursenumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+
+                String sql1 = "UPDATE kurs SET " + info + "= " + "\'" + newinfo + "\'" + "  WHERE kursnummer=" + coursenumber;
+                preparedStatement = connection.prepareStatement(sql1);
+                int k = preparedStatement.executeUpdate();
+
+                if (k == 1) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Updated!");
+                    alert.show();
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void deletecourse(int Coursenumber){
+        Connection connection= null;
+        PreparedStatement psDelete= null;
+        PreparedStatement psCheckUserExists = null;
+        ResultSet resultSet= null;
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            psCheckUserExists = connection.prepareStatement("SELECT kursnummer FROM kurs WHERE kursnummer=?");
+            psCheckUserExists.setInt(1,Coursenumber);
+            resultSet = psCheckUserExists.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                psDelete = connection.prepareStatement("DELETE from kurs WHERE kursnummer=" + Coursenumber);
+                boolean j = psDelete.execute();
+                if (!j) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Deleted!");
+                    alert.show();
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckUserExists !=null){
+                try {
+                    psCheckUserExists.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psDelete != null){
+                try {
+                    psDelete.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void registerstudent( int IDnummer , int coursenumber){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+        String info1=null;
+        String info2=null;
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT kursnummer FROM kurs  WHERE kursnummer=? ");
+            preparedStatement.setInt(1, coursenumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                preparedStatement = connection.prepareStatement("SELECT IDnummer FROM student  WHERE IDnummer=? ");
+                preparedStatement.setInt(1, IDnummer);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.isBeforeFirst() ){
+                    System.out.println("Student not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+
+                }else {
+
+                    String sql = "UPDATE student SET angemeldeteKurs= "  + "\'" + coursenumber + "\'" + " WHERE IDnummer=" + IDnummer;
+
+                    preparedStatement = connection.prepareStatement(sql);
+                    int l = preparedStatement.executeUpdate();
+                    if (l == 1) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Student is registered!");
+                        alert.show();
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void unregisterstudent( int IDnummer , int coursenumber){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT kursnummer FROM kurs  WHERE kursnummer=? ");
+            preparedStatement.setInt(1, coursenumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                preparedStatement = connection.prepareStatement("SELECT IDnummer FROM student  WHERE IDnummer=? ");
+                preparedStatement.setInt(1, IDnummer);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.isBeforeFirst() ){
+                    System.out.println("Student not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+
+                }else {
+
+                    String sql = "UPDATE student SET angemeldeteKurs= "  + "\' 0"  + "\'" + " WHERE IDnummer=" + IDnummer;
+
+                    preparedStatement = connection.prepareStatement(sql);
+                    int l = preparedStatement.executeUpdate();
+                    if (l == 1) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Student is unregistered!");
+                        alert.show();
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void registerteacher( int IDnummer , int coursenumber){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+        String info1=null;
+        String info2=null;
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT kursnummer FROM kurs  WHERE kursnummer=? ");
+            preparedStatement.setInt(1, coursenumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                preparedStatement = connection.prepareStatement("SELECT IDnummer FROM lehrer  WHERE IDnummer=? ");
+                preparedStatement.setInt(1, IDnummer);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.isBeforeFirst() ){
+                    System.out.println("Teacher not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+
+                }else {
+
+                    String sql = "UPDATE kurs SET kurslehrerid= "  + "\'" + IDnummer + "\'" + " WHERE kursnummer=" + coursenumber;
+
+                    preparedStatement = connection.prepareStatement(sql);
+                    int l = preparedStatement.executeUpdate();
+                    if (l == 1) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Teacher is registered!");
+                        alert.show();
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void unregisterteacher( int IDnummer , int coursenumber){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT kursnummer FROM kurs  WHERE kursnummer=? ");
+            preparedStatement.setInt(1, coursenumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Course not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                preparedStatement = connection.prepareStatement("SELECT IDnummer FROM lehrer  WHERE IDnummer=? ");
+                preparedStatement.setInt(1, IDnummer);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.isBeforeFirst() ){
+                    System.out.println("Teacher not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+
+                }else {
+                    String sql = "UPDATE kurs SET kurslehrerid= "  + "\'0"  + "\'" + " WHERE kursnummer=" + coursenumber +" AND kurslehrerid="+IDnummer;
+
+                    preparedStatement = connection.prepareStatement(sql);
+                    int l = preparedStatement.executeUpdate();
+                    if (l == 1) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Teacher is unregistered!");
+                        alert.show();
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void createbill(int billnumber,int totalamount,int studentid,int coursenumber,String dateofinvoice){
+        Connection connection= null;
+        PreparedStatement psInsert= null;
+        PreparedStatement psCheckUserExists = null;
+        ResultSet resultSet= null;
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM rechnung WHERE rechnungsnummer =?");
+            psCheckUserExists.setInt(1, billnumber);
+            resultSet = psCheckUserExists.executeQuery();
+
+            if (resultSet.isBeforeFirst()){
+                System.out.println("Bill already exists!");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Bill already exists!");
+                alert.show();
+            }else{
+                connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                psCheckUserExists = connection.prepareStatement("SELECT IDnummer FROM student WHERE IDnummer=?");
+                psCheckUserExists.setInt(1,studentid);
+                resultSet = psCheckUserExists.executeQuery();
+
+                if (!resultSet.isBeforeFirst()){
+
+                    System.out.println("Student not found in Database");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.show();
+                }else {
+                    connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+                    psCheckUserExists = connection.prepareStatement("SELECT kursnummer FROM kurs WHERE kursnummer=?");
+                    psCheckUserExists.setInt(1,coursenumber);
+                    resultSet = psCheckUserExists.executeQuery();
+
+                    if (!resultSet.isBeforeFirst()){
+
+                        System.out.println("Course not found in Database");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Provided credentials are incorrect!");
+                        alert.show();
+                    }else {
+                        psInsert = connection.prepareStatement("INSERT INTO rechnung (rechnungsnummer , gesamtbetrag, rechnungsdatum ,studentenID, kursnummer,Zahlungsstatus,zahlungsdatum) VALUES (?,?,?,?,?,?,?)");
+                        psInsert.setInt(1, billnumber);
+                        psInsert.setInt(2, totalamount);
+                        psInsert.setString(3, dateofinvoice);
+                        psInsert.setInt(4, studentid);
+                        psInsert.setInt(5, coursenumber);
+                        psInsert.setString(6, "");
+                        psInsert.setString(7, "");
+                        int j= psInsert.executeUpdate();
+                        if (j==1){
+                            Alert alert= new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("Bill Created!");
+                            alert.show();
+                        }
+                    }
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckUserExists !=null){
+                try {
+                    psCheckUserExists.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psInsert != null){
+                try {
+                    psInsert.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void changebill( int billnumber , String info, String newinfo){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+        String info1=null;
+        String info2=null;
+        if(info=="Bill Number") info="rechnungsnummer";
+        if(info=="Total Amount") info="gesamtbetrag";
+        if(info=="Date of invoice") info="rechnungsdatum";
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT rechnungsnummer FROM rechnung  WHERE rechnungsnummer=? ");
+            preparedStatement.setInt(1, billnumber);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Bill not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+
+                String sql1 = "UPDATE rechnung SET " + info + "= " + "\'" + newinfo + "\'" + "  WHERE rechnungsnummer=" + billnumber;
+                preparedStatement = connection.prepareStatement(sql1);
+                int k = preparedStatement.executeUpdate();
+
+                if (k == 1) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Updated!");
+                    alert.show();
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void deletebill(int billnumber){
+        Connection connection= null;
+        PreparedStatement psDelete= null;
+        PreparedStatement psCheckUserExists = null;
+        ResultSet resultSet= null;
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            psCheckUserExists = connection.prepareStatement("SELECT rechnungsnummer FROM rechnung WHERE rechnungsnummer=?");
+            psCheckUserExists.setInt(1,billnumber);
+            resultSet = psCheckUserExists.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Bill not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+                psDelete = connection.prepareStatement("DELETE from rechnung WHERE rechnungsnummer=" + billnumber);
+                boolean j = psDelete.execute();
+                if (!j) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Deleted!");
+                    alert.show();
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckUserExists !=null){
+                try {
+                    psCheckUserExists.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (psDelete != null){
+                try {
+                    psDelete.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public static void paybill( int IDnummer , String date){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet= null;
+
+
+
+        try {
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/mydatabase","root", "");
+            preparedStatement = connection.prepareStatement("SELECT rechnungsnummer FROM rechnung WHERE rechnungsnummer=?");
+            preparedStatement.setInt(1,IDnummer);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.isBeforeFirst()){
+                System.out.println("Bill not found in Database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Provided credentials are incorrect!");
+                alert.show();
+            }else {
+
+                String sql = "UPDATE rechnung SET zahlungsdatum= "  + date + ", Zahlungsstatus=True WHERE rechnungsnummer=" + IDnummer;
+                preparedStatement = connection.prepareStatement(sql);
+                int l = preparedStatement.executeUpdate();
+                if (l == 1) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("The bill has been paid!");
+                    alert.show();
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement !=null){
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            if (connection !=null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }

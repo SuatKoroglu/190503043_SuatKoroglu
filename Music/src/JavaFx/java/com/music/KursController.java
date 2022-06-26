@@ -9,7 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 public class KursController implements Initializable {
     @FXML
@@ -39,7 +41,7 @@ public class KursController implements Initializable {
     @FXML
     private TextField tf_fee;
     @FXML
-    private TextField tf_teachrID;
+    private TextField tf_teacherID;
     @FXML
     private TextField tf_infid;
     @FXML
@@ -58,7 +60,10 @@ public class KursController implements Initializable {
     private Button button_regteacher;
     @FXML
     private Button button_create;
-
+    @FXML
+    private Button button_unregt;
+    @FXML
+    private Button button_unregs;
 
 
     @Override
@@ -104,8 +109,23 @@ public class KursController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Delete Person?");
-                alert.show();
+                alert.setContentText("Delete Course?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.deletecourse(Integer.parseInt(tf_infid.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The course is not deleted!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_change.setOnAction(new EventHandler<ActionEvent>() {
@@ -113,7 +133,30 @@ public class KursController implements Initializable {
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Change Information?");
-                alert.show();
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try{
+                        if(combo2.getValue()!="Information"){
+                            DBUtils.changecourse(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                        }else{
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                            alert1.setTitle("Please Select!");
+                            alert1.setContentText("Please Select Student or Teacher");
+                            alert1.showAndWait();
+                        }
+
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The course is not Updated!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_create.setOnAction(new EventHandler<ActionEvent>() {
@@ -121,28 +164,119 @@ public class KursController implements Initializable {
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Create Course?");
-                alert.show();
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try{
+                        DBUtils.createcourse(tf_name.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_fee.getText()),Integer.parseInt(tf_teacherID.getText()));
+
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The course is not created!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_regstudent.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Register Student?");
-                alert.show();
+                alert.setContentText("Register student?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.registerstudent(Integer.parseInt(tf_rstudent.getText()),Integer.parseInt(tf_rcourse1.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The student is not registered!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_regteacher.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Register Teacher?");
-                alert.show();
+                alert.setContentText("Register teacher?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.registerteacher(Integer.parseInt(tf_rlehrer.getText()),Integer.parseInt(tf_rcourse2.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The teacher is not registered!");
+                    alert1.showAndWait();
+                }
+            }
+        });
+        button_unregt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Unregister teacher?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.unregisterteacher(Integer.parseInt(tf_rlehrer.getText()),Integer.parseInt(tf_rcourse2.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The teacher is not unregistered!");
+                    alert1.showAndWait();
+                }
+            }
+        });
+        button_unregs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Unregister student?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.unregisterstudent(Integer.parseInt(tf_rstudent.getText()),Integer.parseInt(tf_rcourse1.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The student is not unregistered!");
+                    alert1.showAndWait();
+                }
             }
         });
 
-
-        ObservableList<String> list2 = FXCollections.observableArrayList("Course Name","Course Number","Course Fee","Course Teacher ID");
+        ObservableList<String> list2 = FXCollections.observableArrayList("Course Name","Course Number","Course Fee");
         combo2.setItems(list2);
     }
     public void setUserInformation(String username){

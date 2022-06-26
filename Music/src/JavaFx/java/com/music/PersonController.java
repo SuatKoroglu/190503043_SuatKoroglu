@@ -121,7 +121,14 @@ public class PersonController implements Initializable {
                 alert.setContentText("Delete Person?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
-                    DBUtils.deleteperson(Integer.parseInt(tf_infid.getText()));
+                    try {
+                        DBUtils.deleteperson(Integer.parseInt(tf_infid.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
                 }else{
                     Alert alert1 = new Alert(Alert.AlertType.WARNING);
                     alert1.setTitle("Warning!");
@@ -137,7 +144,15 @@ public class PersonController implements Initializable {
                 alert.setContentText("Change Information?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
-                    DBUtils.changeperson(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                    try {
+                        DBUtils.changeperson(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
                 }else{
                     Alert alert1 = new Alert(Alert.AlertType.WARNING);
                     alert1.setTitle("Warning!");

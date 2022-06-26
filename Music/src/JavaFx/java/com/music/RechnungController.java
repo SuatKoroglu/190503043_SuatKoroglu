@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RechnungController implements Initializable {
@@ -36,7 +37,7 @@ public class RechnungController implements Initializable {
     @FXML
     private TextField tf_kursnummer;
     @FXML
-    private DatePicker tf_rechnungsdatum;
+    private DatePicker tf_rechnnugsdatum;
     @FXML
     private Button button_create;
     @FXML
@@ -51,7 +52,10 @@ public class RechnungController implements Initializable {
     private Button button_delete;
     @FXML
     private Button button_change;
-
+    @FXML
+    private TextField tf_infid;
+    @FXML
+    private TextField tf_newinf;
 
 
 
@@ -94,43 +98,111 @@ public class RechnungController implements Initializable {
                 DBUtils.changeScene(event,"instrument.fxml","Instrument",null);
             }
         });
-        button_create.setOnAction(new EventHandler<ActionEvent>() {
+        button_change.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Save Bill?");
-                alert.show();
+                alert.setContentText("Change Information?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try{
+                        if(combo.getValue()!="Information"){
+                            DBUtils.changebill(Integer.parseInt(tf_infid.getText()),(String) combo.getValue(),tf_newinf.getText());
+                        }else{
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                            alert1.setTitle("Please Select!");
+                            alert1.setContentText("Please Select Info");
+                            alert1.showAndWait();
+                        }
+
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The bill is not Updated!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_save.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Save Payment?");
-                alert.show();
+                alert.setContentText("Save payment?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.paybill(Integer.parseInt(tf_paidrechnung.getText()),tf_payday.getValue().toString());
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The bill has not been paid!");
+                    alert1.showAndWait();
+                }
             }
         });
         button_delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Delete Instrument?");
-                alert.show();
+                alert.setContentText("Delete Bill?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try {
+                        DBUtils.deletebill(Integer.parseInt(tf_infid.getText()));
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The bill is not deleted!");
+                    alert1.showAndWait();
+                }
             }
         });
-        button_change.setOnAction(new EventHandler<ActionEvent>() {
+        button_create.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Change Informations?");
-                alert.show();
+                alert.setContentText("Create Bill?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    try{
+                        DBUtils.createbill(Integer.parseInt(tf_nummer.getText()),Integer.parseInt(tf_amount.getText()),Integer.parseInt(tf_studid.getText()),Integer.parseInt(tf_kursnummer.getText()), tf_rechnnugsdatum.getValue().toString());
+                    }catch (Exception e){
+                        Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                        alert1.setTitle("Warning!");
+                        alert1.setContentText("Please make sure the information you entered is correct");
+                        alert1.showAndWait();
+                    }
+                }else{
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Warning!");
+                    alert1.setContentText("The bill is not created!");
+                    alert1.showAndWait();
+                }
             }
         });
 
 
 
 
-        ObservableList<String> list = FXCollections.observableArrayList("Bill Number","Total Amount","Student ID","Course Number","Date of invoice");
+        ObservableList<String> list = FXCollections.observableArrayList("Bill Number","Total Amount","Date of invoice");
         combo.setItems(list);
 
     }

@@ -263,8 +263,18 @@
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="button_regstudent" layoutX="379.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Student" />
-                              <Button fx:id="button_regteacher" layoutX="937.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Teacher" />
+                              <Button fx:id="button_regstudent" layoutX="226.0" layoutY="321.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Student" />
+                              <Button fx:id="button_regteacher" layoutX="784.0" layoutY="321.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Register Teacher" />
+                              <Button fx:id="button_unregs" layoutX="193.0" layoutY="397.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="178.0" style="-fx-background-color: red;" text="Unregister Student">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="button_unregt" layoutX="751.0" layoutY="397.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="178.0" style="-fx-background-color: red;" text="Unregister Teacher">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </AnchorPane>
                     </content>
