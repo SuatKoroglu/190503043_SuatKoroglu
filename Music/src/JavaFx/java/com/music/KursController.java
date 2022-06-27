@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.Optional;
@@ -64,10 +65,35 @@ public class KursController implements Initializable {
     private Button button_unregt;
     @FXML
     private Button button_unregs;
+    @FXML
+    private TableColumn<Kurs, Integer> col_camount;
 
+    @FXML
+    private TableColumn<Kurs, String> col_cname;
+
+    @FXML
+    private TableColumn<Kurs, Integer> col_cnummer;
+
+    @FXML
+    private TableColumn<Kurs, Integer>col_cteacher;
+
+    @FXML
+    private TableView<Kurs> table_course;
+
+
+    ObservableList<Kurs> listm;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        col_cname.setCellValueFactory(new PropertyValueFactory<Kurs,String>("kursname"));
+        col_cnummer.setCellValueFactory(new PropertyValueFactory<Kurs,Integer>("kursnummer"));
+        col_camount.setCellValueFactory(new PropertyValueFactory<Kurs,Integer>("betrag"));
+        col_cteacher.setCellValueFactory(new PropertyValueFactory<Kurs,Integer>("kurslehrerid"));
+
+
+        listm = DBUtils.getdatakurs();
+        table_course.setItems(listm);
+
 
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override

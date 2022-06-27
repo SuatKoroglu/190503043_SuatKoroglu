@@ -39,9 +39,7 @@ public class Person {
     public void setName(String name){
         this.name = name;
     }
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
-    }
+
 
     public void setTelefonnummer(Integer telefonnummer) {
         this.telefonnummer = telefonnummer;
@@ -62,8 +60,12 @@ public class Person {
         return name;
     }
 
-    public String getnachname() {
+    public String getNachname() {
         return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
     }
 
     public Integer getTelefonnummer() {

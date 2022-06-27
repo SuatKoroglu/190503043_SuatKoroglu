@@ -256,3 +256,70 @@
     -fx-fill: white;
     -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
 }
+
+
+
+#Button2 {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+        #FED700
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #FED700,
+        #FED700,
+        radial-gradient(center 50% 50%, radius 100%, #21ab19, #44c767);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+#Button2:hover {
+    -fx-background-color:
+        #FED700
+        linear-gradient(from 0% 93% to 0% 100%, #5cbf2a 0%, #5cbf2a 100%),
+        #5cbf2a,
+        #5cbf2a,
+        radial-gradient(center 50% 50%, radius 100%, #5cbf2a, #5cbf2a);
+}
+#Button2:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+#Button2 Text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+
+#Button3 {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+        #FED700
+        linear-gradient(from 0% 93% to 0% 100%, #e4685d 0%, #903b12 100%),
+        #FED700,
+        #FED700,
+        radial-gradient(center 50% 50%, radius 100%, #e4685d, darkred);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+#Button3:hover {
+    -fx-background-color:
+        #FED700
+        linear-gradient(from 0% 93% to 0% 100%, #5cbf2a 0%, #5cbf2a 100%),
+        #fc8d83,
+        #fc8d83,
+        radial-gradient(center 50% 50%, radius 100%, red, #fc8d83);
+}
+#Button3:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+#Button3 Text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+
+
+

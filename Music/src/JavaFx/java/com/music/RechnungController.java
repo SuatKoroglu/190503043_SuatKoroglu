@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.Date;
@@ -56,11 +57,46 @@ public class RechnungController implements Initializable {
     private TextField tf_infid;
     @FXML
     private TextField tf_newinf;
+    @FXML
+    private TableColumn<Rechnung, Integer> col_amount;
 
+    @FXML
+    private TableColumn<Rechnung, Integer> col_bill;
+
+    @FXML
+    private TableColumn<Rechnung, Integer> col_coursenum;
+
+    @FXML
+    private TableColumn<Rechnung, String> col_invo;
+
+    @FXML
+    private TableColumn<Rechnung, String>  col_payday;
+
+    @FXML
+    private TableColumn<Rechnung, String>  col_paystat;
+
+    @FXML
+    private TableColumn<Rechnung, Integer> col_studid;
+    @FXML
+    private TableView<Rechnung> table_rechnung;
+
+    ObservableList<Rechnung> listm;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        col_bill.setCellValueFactory(new PropertyValueFactory<Rechnung,Integer>("rechnungsnummer"));
+        col_amount.setCellValueFactory(new PropertyValueFactory<Rechnung,Integer>("gesamtbetrag"));
+        col_invo.setCellValueFactory(new PropertyValueFactory<Rechnung,String>("rechnungsdatum"));
+        col_studid.setCellValueFactory(new PropertyValueFactory<Rechnung,Integer>("studentenID"));
+        col_coursenum.setCellValueFactory(new PropertyValueFactory<Rechnung,Integer>("kursnummer"));
+        col_paystat.setCellValueFactory(new PropertyValueFactory<Rechnung,String>("Zahlungsstatus"));
+        col_payday.setCellValueFactory(new PropertyValueFactory<Rechnung,String>("zahlungsdatum"));
+
+
+        listm = DBUtils.getdatarechnung();
+        table_rechnung.setItems(listm);
 
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -138,6 +174,7 @@ public class RechnungController implements Initializable {
                 if(result.get() == ButtonType.OK){
                     try {
                         DBUtils.paybill(Integer.parseInt(tf_paidrechnung.getText()),tf_payday.getValue().toString());
+                        System.out.println(tf_payday.getValue().toString());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");

@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -100,21 +102,6 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="Button" fx:id="button_learningplan" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Learningplan">
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                            <padding>
-                                <Insets left="50.0" />
-                            </padding>
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@plan.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
                         <Button id="Button" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" style="-fx-background-color: #D29E00;" stylesheets="@css.css" text="Instrument">
                             <opaqueInsets>
                                 <Insets />
@@ -126,6 +113,21 @@
                                 <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@instrument.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button id="Button" fx:id="button_learningplan" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Settings">
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@plan.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -152,7 +154,7 @@
                                         </Label>
                                         <TextField fx:id="tf_id" layoutX="452.0" layoutY="230.0" />
                                         <TextField fx:id="tf_name" layoutX="452.0" layoutY="190.0" />
-                                        <Button fx:id="button_create" layoutX="550.0" layoutY="276.0" mnemonicParsing="false" text="Create" />
+                                        <Button id="Button2" fx:id="button_create" layoutX="530.0" layoutY="276.0" mnemonicParsing="false" stylesheets="@css.css" text="Create" />
                                     </children></AnchorPane>
                             </content>
                         </Tab>
@@ -176,7 +178,7 @@
                                                 <Font name="Arial Rounded MT Bold" size="16.0" />
                                             </font>
                                         </Label>
-                                        <Button fx:id="button_change" layoutX="868.0" layoutY="307.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="71.0" text="Change" />
+                                        <Button id="Button2" fx:id="button_change" layoutX="840.0" layoutY="307.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="99.0" stylesheets="@css.css" text="Change" />
                                         <Label layoutX="220.0" layoutY="101.0" text="ID number of the Instrument whose information you want to change/Delete">
                                             <font>
                                                 <Font name="Arial Rounded MT Bold" size="16.0" />
@@ -187,7 +189,7 @@
                                                 <Font size="16.0" />
                                             </font>
                                         </TextField>
-                                        <Button fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" style="-fx-background-color: red;" text="Delete Person">
+                                        <Button id="Button3" fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" stylesheets="@css.css" text="Delete Person">
                                             <font>
                                                 <Font name="Arial Rounded MT Bold" size="16.0" />
                                             </font>
@@ -200,7 +202,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="195.0" layoutY="154.0" text="Barrow status">
+                              <Label layoutX="203.0" layoutY="155.0" text="InstrumentID">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
@@ -210,13 +212,34 @@
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tf_status" layoutX="407.0" layoutY="152.0" prefHeight="25.0" prefWidth="256.0" />
+                              <TextField fx:id="tf_binst" layoutX="407.0" layoutY="152.0" prefHeight="25.0" prefWidth="256.0" />
                               <TextField fx:id="tf_bid" layoutX="407.0" layoutY="192.0" prefHeight="25.0" prefWidth="256.0" />
-                              <Button fx:id="button_save" layoutX="608.0" layoutY="247.0" mnemonicParsing="false" text="Save">
+                              <Button id="Button2" fx:id="button_barrow" layoutX="407.0" layoutY="264.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="95.0" stylesheets="@css.css" text="Barrow">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Button>
+                              <Button id="Button3" fx:id="button_unbarrow" layoutX="541.0" layoutY="264.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" stylesheets="@css.css" text="Unbarrow">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="16.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Instrument List">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="table_instrument" layoutX="14.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="60.0">
+                                <columns>
+                                  <TableColumn fx:id="col_name" prefWidth="284.0" text="Instrument Name" />
+                                  <TableColumn fx:id="col_id" prefWidth="198.0" text="Instrument ID" />
+                                    <TableColumn fx:id="col_status" prefWidth="357.0" text="Barrow Status" />
+                                    <TableColumn fx:id="col_barrowerid" prefWidth="249.0" text="Borrower's IdNumber" />
+                                </columns>
+                              </TableView>
                            </children>
                         </AnchorPane>
                     </content>

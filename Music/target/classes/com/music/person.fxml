@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -100,21 +102,6 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button id="Button" fx:id="button_learningplan" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Learningplan">
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                            <padding>
-                                <Insets left="50.0" />
-                            </padding>
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@plan.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
                         <Button id="Button" fx:id="button_instrument" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Instrument">
                             <opaqueInsets>
                                 <Insets />
@@ -126,6 +113,21 @@
                                 <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@instrument.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button id="Button" fx:id="button_learningplan" alignment="BASELINE_LEFT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="155.0" stylesheets="@css.css" text="Settings">
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@plan.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -194,7 +196,7 @@
                               <TextField fx:id="tf_name" layoutX="452.0" layoutY="190.0" />
                               <TextField fx:id="tf_number" layoutX="452.0" layoutY="430.0" />
                               <TextField fx:id="tf_preis" layoutX="452.0" layoutY="470.0" />
-                              <Button fx:id="button_create" layoutX="452.0" layoutY="510.0" mnemonicParsing="false" text="Create" />
+                              <Button id="Button2" fx:id="button_create" layoutX="452.0" layoutY="510.0" mnemonicParsing="false" stylesheets="@css.css" text="Create" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
@@ -218,7 +220,7 @@
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="button_change" layoutX="868.0" layoutY="307.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="71.0" text="Change" />
+                              <Button id="Button2" fx:id="button_change" layoutX="848.0" layoutY="307.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="91.0" stylesheets="@css.css" text="Change" />
                               <Label layoutX="187.0" layoutY="94.0" text="ID number of the person whose information you want to change/Delete">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
@@ -229,7 +231,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" style="-fx-background-color: red;" text="Delete Person">
+                              <Button id="Button3" fx:id="button_delete" layoutX="401.0" layoutY="406.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="219.0" stylesheets="@css.css" text="Delete Person">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="16.0" />
                                  </font>
@@ -238,6 +240,58 @@
                            </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="Students">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane prefHeight="690.0" prefWidth="1126.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <TableView fx:id="table_students" layoutX="18.0" layoutY="65.0" prefHeight="386.0" prefWidth="1089.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="65.0">
+                                      <columns>
+                                        <TableColumn fx:id="col_sname" prefWidth="91.0" text="Name" />
+                                          <TableColumn fx:id="col_ssurname" prefWidth="91.0" text="Surname" />
+                                          <TableColumn fx:id="col_stel" prefWidth="98.0" text="Phone number" />
+                                          <TableColumn fx:id="col_sadress" prefWidth="133.0" text="Adress" />
+                                          <TableColumn fx:id="col_smail" minWidth="0.0" prefWidth="140.0" text="E-mail" />
+                                          <TableColumn fx:id="col_sid" minWidth="0.0" prefWidth="103.0" text="ID Number" />
+                                          <TableColumn fx:id="col_snumber" prefWidth="122.0" text="Student Number" />
+                                          <TableColumn fx:id="col_scourse" prefWidth="109.0" text="Registered Course" />
+                                          <TableColumn fx:id="col_sfee" prefWidth="52.0" text="Fee" />
+                                          <TableColumn fx:id="col_sbill" minWidth="0.0" prefWidth="52.0" text="Bills" />
+                                          <TableColumn fx:id="col_sabsence" prefWidth="96.0" text="Absence" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Teacher">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane prefHeight="690.0" prefWidth="1126.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <TableView fx:id="table_teacher" layoutX="18.0" layoutY="65.0" prefHeight="577.0" prefWidth="1089.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="65.0">
+                                       <columns>
+                                          <TableColumn fx:id="col_tname" prefWidth="91.0" text="Name" />
+                                          <TableColumn fx:id="col_tsurname" prefWidth="91.0" text="Surname" />
+                                          <TableColumn fx:id="col_ttel" prefWidth="121.0" text="Phone number" />
+                                          <TableColumn fx:id="col_tadress" prefWidth="120.0" text="Adress" />
+                                          <TableColumn fx:id="col_tmail" minWidth="0.0" prefWidth="158.0" text="E-mail" />
+                                          <TableColumn fx:id="col_tid" minWidth="0.0" prefWidth="146.0" text="ID Number" />
+                                          <TableColumn fx:id="col_tpersnummer" prefWidth="148.0" text="Personal Number" />
+                                          <TableColumn fx:id="col_tsalary" prefWidth="79.0" text="Salary" />
+                                          <TableColumn fx:id="col_tinstrument" prefWidth="134.0" text="Instrument" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </center>
