@@ -154,7 +154,7 @@ public class DBUtils {
         }
     }
 
-    public static void createstudent(String name, String surname, int id, int telefon, String mail, String adress, int studentnumber, int fee) {
+    public static void createstudent(Studieren studieren) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckUserExists = null;
@@ -162,7 +162,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM student WHERE IDnummer =?");
-            psCheckUserExists.setInt(1, id);
+            psCheckUserExists.setInt(1, studieren.getIDnummer());
             resultSet = psCheckUserExists.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -172,17 +172,17 @@ public class DBUtils {
                 alert.show();
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO student (name, nachname, telefonnummer, adresse, email, IDnummer, studentennummer, angemeldeteKurs, gebühr, rechnungen, abwesenheitstermine) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                psInsert.setString(1, name);
-                psInsert.setString(2, surname);
-                psInsert.setInt(3, telefon);
-                psInsert.setString(4, adress);
-                psInsert.setString(5, mail);
-                psInsert.setInt(6, id);
-                psInsert.setInt(7, studentnumber);
-                psInsert.setString(8, "");
-                psInsert.setInt(9, fee);
-                psInsert.setString(10, "");
-                psInsert.setString(11, "");
+                psInsert.setString(1, studieren.getName());
+                psInsert.setString(2, studieren.getNachname());
+                psInsert.setInt(3, studieren.getTelefonnummer());
+                psInsert.setString(4, studieren.getAdresse());
+                psInsert.setString(5, studieren.getEmail());
+                psInsert.setInt(6, studieren.getIDnummer());
+                psInsert.setInt(7, studieren.getStudentennummer());
+                psInsert.setInt(8, studieren.getAngemeldeteKurs());
+                psInsert.setInt(9, studieren.getGebühr());
+                psInsert.setInt(10, studieren.getRechnungen());
+                psInsert.setString(11, studieren.getAbwesenheitstermine());
                 int j = psInsert.executeUpdate();
                 if (j == 1) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -225,7 +225,7 @@ public class DBUtils {
         }
     }
 
-    public static void createteacher(String name, String surname, int id, int telefon, String mail, String adress, int personalnumber, int gehalt) {
+    public static void createteacher(Lehrer lehrer) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckUserExists = null;
@@ -233,7 +233,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM lehrer WHERE IDnummer =?");
-            psCheckUserExists.setInt(1, id);
+            psCheckUserExists.setInt(1, lehrer.getIDnummer());
             resultSet = psCheckUserExists.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -243,15 +243,15 @@ public class DBUtils {
                 alert.show();
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO lehrer (name, nachname, telefonnummer, adresse, email, IDnummer, gehalt, spezialisiertes_instrument,  personalnummer) VALUES (?,?,?,?,?,?,?,?,?)");
-                psInsert.setString(1, name);
-                psInsert.setString(2, surname);
-                psInsert.setInt(3, telefon);
-                psInsert.setString(4, adress);
-                psInsert.setString(5, mail);
-                psInsert.setInt(6, id);
-                psInsert.setInt(7, gehalt);
-                psInsert.setString(8, "");
-                psInsert.setInt(10, personalnumber);
+                psInsert.setString(1, lehrer.getName());
+                psInsert.setString(2, lehrer.getNachname());
+                psInsert.setInt(3, lehrer.getTelefonnummer());
+                psInsert.setString(4, lehrer.getAdresse());
+                psInsert.setString(5, lehrer.getEmail());
+                psInsert.setInt(6, lehrer.getIDnummer());
+                psInsert.setInt(7, lehrer.getGehalt());
+                psInsert.setString(8, lehrer.getSpezialisiertes_instrument());
+                psInsert.setInt(9, lehrer.getPersonalnummer());
                 int j = psInsert.executeUpdate();
                 if (j == 1) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -334,7 +334,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("User not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("User not found in Database!");
                 alert.show();
             } else {
 
@@ -361,7 +361,7 @@ public class DBUtils {
                     if (!resultSet.isBeforeFirst()) {
                         System.out.println("Instrument not found in Database");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Provided credentials are incorrect!");
+                        alert.setContentText("Instrument not found in Database!");
                         alert.show();
                     } else {
                         String sql1 = "UPDATE lehrer SET " + info + "= " + "\'" + newinfo + "\'" + "  WHERE IDnummer=" + IDnummer;
@@ -446,7 +446,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("User not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("User not found in Database!");
                     alert.show();
                 } else {
                     psDelete = connection.prepareStatement("DELETE from lehrer WHERE IDnummer=" + IDnummer);
@@ -502,7 +502,7 @@ public class DBUtils {
         }
     }
 
-    public static void createcourse(String name, int coursenumber, int fee, int teacherid) {
+    public static void createcourse(Kurs kurs) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckUserExists = null;
@@ -510,7 +510,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM kurs WHERE kursnummer =?");
-            psCheckUserExists.setInt(1, coursenumber);
+            psCheckUserExists.setInt(1, kurs.getKursnummer());
             resultSet = psCheckUserExists.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -521,22 +521,22 @@ public class DBUtils {
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
                 psCheckUserExists = connection.prepareStatement("SELECT IDnummer FROM lehrer WHERE IDnummer=?");
-                psCheckUserExists.setInt(1, teacherid);
+                psCheckUserExists.setInt(1, kurs.getKurslehrerid());
                 resultSet = psCheckUserExists.executeQuery();
 
                 if (!resultSet.isBeforeFirst()) {
 
                     System.out.println("Teacher not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Teacher not found in Database!");
                     alert.show();
                 } else {
 
                     psInsert = connection.prepareStatement("INSERT INTO kurs (kursname, kursnummer,betrag,kurslehrerid) VALUES (?,?,?,?)");
-                    psInsert.setString(1, name);
-                    psInsert.setInt(2, coursenumber);
-                    psInsert.setInt(3, fee);
-                    psInsert.setInt(4, teacherid);
+                    psInsert.setString(1, kurs.getKursname());
+                    psInsert.setInt(2, kurs.getKursnummer());
+                    psInsert.setInt(3, kurs.getBetrag());
+                    psInsert.setInt(4, kurs.getKurslehrerid());
                     int j = psInsert.executeUpdate();
                     if (j == 1) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -600,7 +600,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
 
@@ -656,7 +656,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
                 psDelete = connection.prepareStatement("DELETE from kurs WHERE kursnummer=" + Coursenumber);
@@ -718,7 +718,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
@@ -728,7 +728,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("Student not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Student not found in Database!");
                     alert.show();
 
                 } else {
@@ -787,7 +787,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
@@ -797,7 +797,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("Student not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Student not found in Database!");
                     alert.show();
 
                 } else {
@@ -858,7 +858,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
@@ -868,7 +868,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("Teacher not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Teacher not found in Database!");
                     alert.show();
 
                 } else {
@@ -927,7 +927,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Course not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Course not found in Database!");
                 alert.show();
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
@@ -937,7 +937,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("Teacher not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Teacher not found in Database!");
                     alert.show();
 
                 } else {
@@ -980,7 +980,7 @@ public class DBUtils {
         }
     }
 
-    public static void createbill(int billnumber, int totalamount, int studentid, int coursenumber, String dateofinvoice) {
+    public static void createbill(Rechnung rechnung) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckUserExists = null;
@@ -988,7 +988,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM rechnung WHERE rechnungsnummer =?");
-            psCheckUserExists.setInt(1, billnumber);
+            psCheckUserExists.setInt(1, rechnung.getRechnungsnummer());
             resultSet = psCheckUserExists.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -999,39 +999,39 @@ public class DBUtils {
             } else {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
                 psCheckUserExists = connection.prepareStatement("SELECT IDnummer FROM student WHERE IDnummer=?");
-                psCheckUserExists.setInt(1, studentid);
+                psCheckUserExists.setInt(1, rechnung.getStudentenID());
                 resultSet = psCheckUserExists.executeQuery();
 
                 if (!resultSet.isBeforeFirst()) {
 
                     System.out.println("Student not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Student not found in Database!");
                     alert.show();
                 } else {
                     connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
                     psCheckUserExists = connection.prepareStatement("SELECT kursnummer FROM kurs WHERE kursnummer=?");
-                    psCheckUserExists.setInt(1, coursenumber);
+                    psCheckUserExists.setInt(1, rechnung.getKursnummer());
                     resultSet = psCheckUserExists.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {
 
                         System.out.println("Course not found in Database");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Provided credentials are incorrect!");
+                        alert.setContentText("Course not found in Database!");
                         alert.show();
                     } else {
                         psInsert = connection.prepareStatement("INSERT INTO rechnung (rechnungsnummer , gesamtbetrag, rechnungsdatum ,studentenID, kursnummer,Zahlungsstatus,zahlungsdatum) VALUES (?,?,?,?,?,?,?)");
-                        psInsert.setInt(1, billnumber);
-                        psInsert.setInt(2, totalamount);
-                        psInsert.setString(3, dateofinvoice);
-                        psInsert.setInt(4, studentid);
-                        psInsert.setInt(5, coursenumber);
-                        psInsert.setString(6, "");
-                        psInsert.setString(7, "");
+                        psInsert.setInt(1, rechnung.getRechnungsnummer());
+                        psInsert.setInt(2, rechnung.getGesamtbetrag());
+                        psInsert.setString(3, rechnung.getRechnungsdatum());
+                        psInsert.setInt(4, rechnung.getStudentenID());
+                        psInsert.setInt(5, rechnung.getKursnummer());
+                        psInsert.setString(6, rechnung.getZahlungsstatus());
+                        psInsert.setString(7, rechnung.getZahlungsdatum());
                         int j = psInsert.executeUpdate();
 
-                        String sql1 = "UPDATE student SET rechnungen=" + billnumber + "  WHERE IDnummer=" + studentid;
+                        String sql1 = "UPDATE student SET rechnungen=" + rechnung.getRechnungsnummer() + "  WHERE IDnummer=" + rechnung.getStudentenID();
                         psCheckUserExists = connection.prepareStatement(sql1);
                         psCheckUserExists.executeUpdate();
 
@@ -1098,7 +1098,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Bill not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Bill not found in Database\"!");
                 alert.show();
             } else {
                 try {
@@ -1120,7 +1120,7 @@ public class DBUtils {
                 }catch (Exception e){
                     System.out.println("Bill number already used");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Bill number already used!");
                     alert.show();
                 }
 
@@ -1167,7 +1167,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Bill not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Bill not found in Database!");
                 alert.show();
             } else {
                 psDelete = connection.prepareStatement("DELETE from rechnung WHERE rechnungsnummer=" + billnumber);
@@ -1227,7 +1227,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Bill not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Bill not found in Database!");
                 alert.show();
             } else {
 
@@ -1267,7 +1267,7 @@ public class DBUtils {
         }
     }
 
-    public static void createinstrument(String instrumentname, int instrumentid) {
+    public static void createinstrument(Instrument instrument) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckUserExists = null;
@@ -1275,7 +1275,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", "root", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM instrument WHERE instrumentID= ?");
-            psCheckUserExists.setInt(1, instrumentid);
+            psCheckUserExists.setInt(1, instrument.getInstrumentID());
             resultSet = psCheckUserExists.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -1285,10 +1285,10 @@ public class DBUtils {
                 alert.show();
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO instrument (instrumentID , instrumentname, ausleichstatus ,id_des_ausleihers) VALUES (?,?,?,?)");
-                psInsert.setInt(1, instrumentid);
-                psInsert.setString(2, instrumentname);
-                psInsert.setString(3, "");
-                psInsert.setString(4, "");
+                psInsert.setInt(1, instrument.getInstrumentID());
+                psInsert.setString(2, instrument.getInstrumentname());
+                psInsert.setString(3, instrument.getAusleichstatus());
+                psInsert.setInt(4, instrument.getId_des_ausleihers());
                 int j = psInsert.executeUpdate();
                 if (j == 1) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1349,7 +1349,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Instrument not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Instrument not found in Database!");
                 alert.show();
             } else {
 
@@ -1405,7 +1405,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Instrument not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Instrument not found in Database!");
                 alert.show();
             } else {
                 psDelete = connection.prepareStatement("DELETE from instrument WHERE instrumentID=" + instrumentid);
@@ -1465,7 +1465,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Instrument not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Instrument not found in Database!");
                 alert.show();
             } else {
 
@@ -1476,7 +1476,7 @@ public class DBUtils {
                 if (!resultSet.isBeforeFirst()) {
                     System.out.println("Person not found in Database");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Provided credentials are incorrect!");
+                    alert.setContentText("Person not found in Database!");
                     alert.show();
 
                 } else {
@@ -1533,7 +1533,7 @@ public class DBUtils {
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("Instrument not found in Database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect!");
+                alert.setContentText("Instrument not found in Database!");
                 alert.show();
             } else {
 

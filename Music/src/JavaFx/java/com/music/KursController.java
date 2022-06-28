@@ -42,19 +42,8 @@ public class KursController implements Initializable {
     @FXML
     private TextField tf_fee;
     @FXML
-    private TextField tf_teacherID;
-    @FXML
-    private TextField tf_infid;
-    @FXML
     private TextField tf_newinf;
-    @FXML
-    private TextField tf_rstudent;
-    @FXML
-    private TextField tf_rcourse1;
-    @FXML
-    private TextField tf_rlehrer;
-    @FXML
-    private TextField tf_rcourse2;
+
     @FXML
     private Button button_regstudent;
     @FXML
@@ -79,9 +68,28 @@ public class KursController implements Initializable {
 
     @FXML
     private TableView<Kurs> table_course;
+    @FXML
+    private ChoiceBox<Integer> cho1;
+    @FXML
+    private ChoiceBox<Integer> cho2;
 
+    @FXML
+    private ChoiceBox<Integer> cho3;
+
+    @FXML
+    private ChoiceBox<Integer> cho4;
+
+    @FXML
+    private ChoiceBox<Integer> cho5;
+
+    @FXML
+    private ChoiceBox<Integer> cho6;
 
     ObservableList<Kurs> listm;
+    ObservableList<Lehrer> listk;
+    ObservableList<Studieren> lista;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -139,7 +147,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.deletecourse(Integer.parseInt(tf_infid.getText()));
+                        DBUtils.deletecourse(cho2.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -163,7 +171,7 @@ public class KursController implements Initializable {
                 if(result.get() == ButtonType.OK){
                     try{
                         if(combo2.getValue()!="Information"){
-                            DBUtils.changecourse(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                            DBUtils.changecourse(cho2.getValue(),(String) combo2.getValue(),tf_newinf.getText());
                         }else{
                             Alert alert1 = new Alert(Alert.AlertType.WARNING);
                             alert1.setTitle("Please Select!");
@@ -193,7 +201,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try{
-                        DBUtils.createcourse(tf_name.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_fee.getText()),Integer.parseInt(tf_teacherID.getText()));
+                        DBUtils.createcourse( new Kurs (tf_name.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_fee.getText()),cho1.getValue()));
 
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
@@ -217,7 +225,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.registerstudent(Integer.parseInt(tf_rstudent.getText()),Integer.parseInt(tf_rcourse1.getText()));
+                        DBUtils.registerstudent(cho3.getValue(),cho4.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -240,7 +248,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.registerteacher(Integer.parseInt(tf_rlehrer.getText()),Integer.parseInt(tf_rcourse2.getText()));
+                        DBUtils.registerteacher(cho5.getValue(),cho6.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -263,7 +271,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.unregisterteacher(Integer.parseInt(tf_rlehrer.getText()),Integer.parseInt(tf_rcourse2.getText()));
+                        DBUtils.unregisterteacher(cho5.getValue(),cho6.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -286,7 +294,7 @@ public class KursController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.unregisterstudent(Integer.parseInt(tf_rstudent.getText()),Integer.parseInt(tf_rcourse1.getText()));
+                        DBUtils.unregisterstudent(cho3.getValue(),cho4.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -304,6 +312,28 @@ public class KursController implements Initializable {
 
         ObservableList<String> list2 = FXCollections.observableArrayList("Course Name","Course Number","Course Fee");
         combo2.setItems(list2);
+
+        listk= DBUtils.getdatalehrer();
+        for(Lehrer l: listk){
+            cho1.getItems().add(l.getIDnummer());
+        }
+        for(Kurs k: listm){
+            cho2.getItems().add(k.getKursnummer());
+        }
+        lista= DBUtils.getdatastudent();
+        for(Studieren s: lista){
+            cho3.getItems().add(s.getIDnummer());
+        }
+        for(Kurs k: listm) {
+            cho4.getItems().add(k.getKursnummer());
+        }
+         for(Lehrer l: listk) {
+             cho5.getItems().add(l.getIDnummer());
+         }
+        for(Kurs k: listm) {
+            cho6.getItems().add(k.getKursnummer());
+        }
+
     }
     public void setUserInformation(String username){
         label_welcome.setText("Welcome \n"+ username+"!");

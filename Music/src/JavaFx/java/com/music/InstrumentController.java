@@ -46,13 +46,7 @@ public class InstrumentController implements Initializable {
     @FXML
     private TextField tf_id;
     @FXML
-    private TextField tf_infid;
-    @FXML
     private TextField tf_newinf;
-    @FXML
-    private TextField tf_binst;
-    @FXML
-    private TextField tf_bid;
     @FXML
     private TableColumn<Instrument, Integer> col_barrowerid;
 
@@ -67,9 +61,19 @@ public class InstrumentController implements Initializable {
 
     @FXML
     private TableView<Instrument> table_instrument;
+    @FXML
+    private ChoiceBox<Integer> cho1;
+
+    @FXML
+    private ChoiceBox<Integer> cho2;
+
+    @FXML
+    private ChoiceBox<Integer> cho3;
+
 
     ObservableList<Instrument> listm;
-
+    ObservableList<Studieren> lists;
+    ObservableList<Lehrer> listl;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -127,7 +131,7 @@ public class InstrumentController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try{
-                        DBUtils.createinstrument(tf_name.getText(),Integer.parseInt(tf_id.getText()));
+                        DBUtils.createinstrument( new Instrument( Integer.parseInt(tf_id.getText()),tf_name.getText(),"",0));
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -150,7 +154,7 @@ public class InstrumentController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.barrowinstrument(Integer.parseInt(tf_binst.getText()),Integer.parseInt(tf_bid.getText()));
+                        DBUtils.barrowinstrument(cho2.getValue(),cho3.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -173,7 +177,7 @@ public class InstrumentController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.unbarrowinstrument(Integer.parseInt(tf_binst.getText()));
+                        DBUtils.unbarrowinstrument(cho2.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -197,7 +201,7 @@ public class InstrumentController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.deleteinstrument(Integer.parseInt(tf_infid.getText()));
+                        DBUtils.deleteinstrument(cho1.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -221,7 +225,7 @@ public class InstrumentController implements Initializable {
                 if(result.get() == ButtonType.OK){
                     try{
                         if(combo2.getValue()!="Information"){
-                                DBUtils.changeinstrument(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                                DBUtils.changeinstrument(cho1.getValue(),(String) combo2.getValue(),tf_newinf.getText());
                         }else{
                             Alert alert1 = new Alert(Alert.AlertType.WARNING);
                             alert1.setTitle("Please Select!");
@@ -247,8 +251,26 @@ public class InstrumentController implements Initializable {
 
         ObservableList<String> list2 = FXCollections.observableArrayList("Instrument Name","Instrument ID");
         combo2.setItems(list2);
-    }
 
+        for(Instrument i: listm){
+            cho1.getItems().add(i.getInstrumentID());
+        }
+        for(Instrument i: listm){
+            cho2.getItems().add(i.getInstrumentID());
+        }
+        lists= DBUtils.getdatastudent();
+        listl= DBUtils.getdatalehrer();
+        for(Studieren s: lists){
+            cho3.getItems().add(s.getIDnummer());
+        }
+        for(Lehrer l: listl){
+            cho3.getItems().add(l.getIDnummer());
+        }
+
+
+
+
+    }
 
     public void setUserInformation(String username){
         label_welcome.setText("Welcome \n"+ username+"!");

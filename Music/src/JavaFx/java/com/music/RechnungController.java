@@ -33,16 +33,13 @@ public class RechnungController implements Initializable {
     private TextField tf_nummer;
     @FXML
     private TextField tf_amount;
-    @FXML
-    private TextField tf_studid;
+
     @FXML
     private TextField tf_kursnummer;
     @FXML
     private DatePicker tf_rechnnugsdatum;
     @FXML
     private Button button_create;
-    @FXML
-    private TextField tf_paidrechnung;
     @FXML
     private DatePicker tf_payday;
     @FXML
@@ -53,8 +50,6 @@ public class RechnungController implements Initializable {
     private Button button_delete;
     @FXML
     private Button button_change;
-    @FXML
-    private TextField tf_infid;
     @FXML
     private TextField tf_newinf;
     @FXML
@@ -79,8 +74,18 @@ public class RechnungController implements Initializable {
     private TableColumn<Rechnung, Integer> col_studid;
     @FXML
     private TableView<Rechnung> table_rechnung;
+    @FXML
+    private ChoiceBox<Integer> cho1;
+
+    @FXML
+    private ChoiceBox<Integer> cho2;
+
+    @FXML
+    private ChoiceBox<Integer> cho3;
+
 
     ObservableList<Rechnung> listm;
+    ObservableList<Studieren> listk;
 
 
     @Override
@@ -143,7 +148,7 @@ public class RechnungController implements Initializable {
                 if(result.get() == ButtonType.OK){
                     try{
                         if(combo.getValue()!="Information"){
-                            DBUtils.changebill(Integer.parseInt(tf_infid.getText()),(String) combo.getValue(),tf_newinf.getText());
+                            DBUtils.changebill(cho2.getValue(),(String) combo.getValue(),tf_newinf.getText());
                         }else{
                             Alert alert1 = new Alert(Alert.AlertType.WARNING);
                             alert1.setTitle("Please Select!");
@@ -173,7 +178,7 @@ public class RechnungController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.paybill(Integer.parseInt(tf_paidrechnung.getText()),tf_payday.getValue().toString());
+                        DBUtils.paybill(cho3.getValue(),tf_payday.getValue().toString());
                         System.out.println(tf_payday.getValue().toString());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
@@ -197,7 +202,7 @@ public class RechnungController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.deletebill(Integer.parseInt(tf_infid.getText()));
+                        DBUtils.deletebill(cho2.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -220,7 +225,7 @@ public class RechnungController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try{
-                        DBUtils.createbill(Integer.parseInt(tf_nummer.getText()),Integer.parseInt(tf_amount.getText()),Integer.parseInt(tf_studid.getText()),Integer.parseInt(tf_kursnummer.getText()), tf_rechnnugsdatum.getValue().toString());
+                        DBUtils.createbill( new Rechnung (Integer.parseInt(tf_nummer.getText()),Integer.parseInt(tf_amount.getText()), tf_rechnnugsdatum.getValue().toString(), cho1.getValue(), Integer.parseInt(tf_kursnummer.getText()),"","" ));
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -242,6 +247,16 @@ public class RechnungController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList("Bill Number","Total Amount","Date of invoice");
         combo.setItems(list);
 
+        listk = DBUtils.getdatastudent();
+        for(Studieren s: listk){
+            cho1.getItems().add(s.getIDnummer());
+        }
+        for(Rechnung r: listm){
+            cho2.getItems().add(r.getRechnungsnummer());
+        }
+        for(Rechnung r: listm){
+            cho3.getItems().add(r.getRechnungsnummer());
+        }
     }
     public void setUserInformation(String username){
         label_welcome.setText("Welcome \n"+ username+"!");

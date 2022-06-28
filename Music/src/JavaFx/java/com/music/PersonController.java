@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -125,6 +126,10 @@ public class PersonController implements Initializable {
     @FXML
     private TableView<Lehrer> table_teacher;
 
+    @FXML
+    private ChoiceBox<Integer> combo3;
+
+
 
     ObservableList<Studieren> listm;
     ObservableList<Lehrer> listk;
@@ -173,6 +178,9 @@ public class PersonController implements Initializable {
         listk= DBUtils.getdatalehrer();
         table_teacher.setItems(listk);
 
+
+
+
         combo.setOnAction(event -> setnumberInformation());
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -218,7 +226,7 @@ public class PersonController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.deleteperson(Integer.parseInt(tf_infid.getText()));
+                        DBUtils.deleteperson(combo3.getValue());
                     }catch (Exception e){
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
@@ -241,9 +249,15 @@ public class PersonController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){
                     try {
-                        DBUtils.changeperson(Integer.parseInt(tf_infid.getText()),(String) combo2.getValue(),tf_newinf.getText());
+                        if (combo3.getValue()!=null){
+                            DBUtils.changeperson(combo3.getValue(),(String) combo2.getValue(),tf_newinf.getText());
+                        }else if(combo3.getValue()!=null){
+                            DBUtils.changeperson(combo3.getValue(),(String) combo2.getValue(),tf_newinf.getText());
+                        }
+
 
                     }catch (Exception e){
+
                         Alert alert1 = new Alert(Alert.AlertType.WARNING);
                         alert1.setTitle("Warning!");
                         alert1.setContentText("Please make sure the information you entered is correct");
@@ -266,10 +280,10 @@ public class PersonController implements Initializable {
                 if(result.get() == ButtonType.OK){
                     try {
                         if(combo.getValue()=="Student"){
-                            DBUtils.createstudent(tf_name.getText(),tf_surname.getText(),Integer.parseInt(tf_id.getText()) ,Integer.parseInt(tf_telefon.getText()),tf_mail.getText(),tf_adress.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_preis.getText()));
+                            DBUtils.createstudent( new Studieren(tf_name.getText(),tf_surname.getText(),Integer.parseInt(tf_telefon.getText()),tf_adress.getText(),tf_mail.getText(),Integer.parseInt(tf_id.getText()) ,Integer.parseInt(tf_number.getText()) ,0,Integer.parseInt(tf_preis.getText()),0,"" ) );
                         }
                         else if (combo.getValue()=="Teacher"){
-                            DBUtils.createteacher(tf_name.getText(),tf_surname.getText(),Integer.parseInt(tf_id.getText()) ,Integer.parseInt(tf_telefon.getText()),tf_mail.getText(),tf_adress.getText(),Integer.parseInt(tf_number.getText()),Integer.parseInt(tf_preis.getText()));
+                            DBUtils.createteacher( new Lehrer (tf_name.getText(),tf_surname.getText() ,Integer.parseInt(tf_telefon.getText()),tf_adress.getText(), tf_mail.getText(),Integer.parseInt(tf_id.getText()),Integer.parseInt(tf_preis.getText()),"",Integer.parseInt(tf_number.getText())) );
 
                         }else{
                             Alert alert1 = new Alert(Alert.AlertType.WARNING);
@@ -301,6 +315,17 @@ public class PersonController implements Initializable {
         combo.setItems(list);
         ObservableList<String> list2 = FXCollections.observableArrayList("Name","Surname","IDnumber","Phone number","E-mail","Adress","Number","Preis","Special instrumentID(Teacher)","Absence(Student)");
         combo2.setItems(list2);
+
+
+
+        for(Lehrer l: listk){
+            combo3.getItems().add(l.getIDnummer());
+        }
+        for(Studieren s: listm){
+            combo3.getItems().add(s.getIDnummer());
+        }
+
+
     }
     public void setUserInformation(String username){
         label_welcome.setText("Welcome \n"+ username+"!");
